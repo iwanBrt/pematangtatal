@@ -51,6 +51,8 @@ export default function Footer() {
                                 ['Profil Desa', '/profil'],
                                 ['Berita & Pengumuman', '/berita'],
                                 ['Data Desa', '/data-desa'],
+                                ['Dokumen Publik', '/dokumen'],
+                                ['Lembaga Desa', '/lembaga'],
                                 ['UMKM', '/umkm'],
                                 ['Galeri', '/galeri'],
                             ].map(([label, href]) => (
@@ -70,6 +72,7 @@ export default function Footer() {
                             {[
                                 ['Layanan Surat', '/layanan'],
                                 ['Pengaduan Warga', '/pengaduan'],
+                                ['Agenda Kegiatan', '/agenda'],
                                 ['Cek Status Permohonan', '/layanan/cek-status'],
                                 ['Cek Status Pengaduan', '/pengaduan/cek-status'],
                                 ['Potensi Desa', '/potensi'],
@@ -116,6 +119,7 @@ export default function Footer() {
                     <span className="flex items-center gap-1">
                         Dibuat dengan <Heart size={12} className="text-red-400" /> untuk kemajuan desa
                     </span>
+                    <Link href="/privasi" className="hover:text-primary transition-colors">Privasi & Ketentuan</Link>
                 </div>
             </div>
         </footer>

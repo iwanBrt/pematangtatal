@@ -53,6 +53,10 @@ class PermohonanSuratController extends Controller
             $validated['selesai_at'] = null;
         }
 
+        if ($validated['status'] === 'selesai' && blank($validated['catatan_admin'])) {
+            $validated['catatan_admin'] = 'Silakan menjemput surat di kantor desa.';
+        }
+
         $permohonan->update($validated);
 
         return redirect()->route('admin.permohonan.index')

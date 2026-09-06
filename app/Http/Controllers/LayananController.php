@@ -44,7 +44,7 @@ class LayananController extends Controller
         if ($request->filled('no_referensi')) {
             $permohonan = PermohonanSurat::with('layanan:id,nama')
                 ->where('no_referensi', $request->no_referensi)
-                ->first(['id', 'no_referensi', 'nama_pemohon', 'layanan_id', 'status', 'catatan_admin', 'created_at', 'selesai_at']);
+                ->first(['id', 'no_referensi', 'layanan_id', 'status', 'catatan_admin', 'created_at', 'selesai_at']);
         }
 
         return Inertia::render('CekStatusPermohonan', [

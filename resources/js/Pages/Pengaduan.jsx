@@ -1,4 +1,4 @@
-import { Head, useForm, router } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import PageHeader from '@/Components/PageHeader';
 import ScrollReveal from '@/Components/ScrollReveal';
@@ -16,17 +16,18 @@ const kategoriOptions = [
 const statusColor = { diterima: '#2F6B57', diproses: '#D9B56D', selesai: '#164A41', ditolak: '#B91C1C' };
 const statusLabel = { diterima: 'Diterima', diproses: 'Sedang Diproses', selesai: 'Selesai', ditolak: 'Ditolak' };
 
-export default function Pengaduan({ pengaduan, no_tiket }) {
-    const [tab, setTab] = useState('form');
+export default function Pengaduan({ pengaduan, no_tiket, initialTab = 'form', flash }) {
+    const [tab, setTab] = useState(initialTab);
+    const [showSuccess, setShowSuccess] = useState(false);
     const [cekTiket, setCekTiket] = useState(no_tiket || '');
-    const { data, setData, post, processing, errors, reset, recentlySuccessful, wasSuccessful } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         nama_pelapor: '', no_telepon: '', is_anonim: false,
         kategori: '', deskripsi: '', foto_bukti: null, lokasi: '',
     });
 
     const submit = (e) => {
         e.preventDefault();
-        post('/pengaduan', { forceFormData: true, onSuccess: () => reset() });
+        post('/pengaduan', { forceFormData: true, onSuccess: () => { reset(); setShowSuccess(true); } });
     };
 
     const cekStatus = (e) => {
@@ -44,7 +45,6 @@ export default function Pengaduan({ pengaduan, no_tiket }) {
             />
             <div className="section-padding bg-background">
                 <div className="container-custom max-w-3xl">
-                    {/* Tabs */}
                     <div className="flex gap-0 mb-8 border-b border-border-light">
                         {[
                             ['form', 'Laporkan Masalah'],
@@ -66,7 +66,7 @@ export default function Pengaduan({ pengaduan, no_tiket }) {
 
                     {tab === 'form' && (
                         <ScrollReveal>
-                            {recentlySuccessful || wasSuccessful ? (
+                            {showSuccess ? (
                                 <div className="border border-border-light p-10 text-center" style={{ borderRadius: 'var(--radius-lg)', background: 'var(--color-surface)' }}>
                                     <CheckCircle size={48} className="text-primary mx-auto mb-4" />
                                     <h2 className="text-lg font-bold mb-2 text-charcoal" style={{ fontFamily: 'var(--font-heading)' }}>
@@ -76,12 +76,19 @@ export default function Pengaduan({ pengaduan, no_tiket }) {
                                         Nomor tiket Anda untuk memantau status:
                                     </p>
                                     <p className="text-2xl font-bold mb-6 text-primary">
-                                        —
+                                        {flash?.no_tiket || no_tiket || 'Nomor belum tersedia'}
                                     </p>
+                                    <button
+                                        type="button"
+                                        onClick={() => navigator.clipboard?.writeText(flash?.no_tiket || no_tiket || '')}
+                                        className="btn btn-secondary mb-6"
+                                    >
+                                        Salin Nomor Tiket
+                                    </button>
                                     <p className="text-xs mb-6 text-text-muted">
                                         Catat nomor tiket Anda untuk cek status di halaman ini.
                                     </p>
-                                    <button onClick={() => reset()} className="btn btn-primary">Buat Laporan Baru</button>
+                                    <button type="button" onClick={() => { setShowSuccess(false); setTab('form'); }} className="btn btn-primary">Tutup dan Kembali ke Form</button>
                                 </div>
                             ) : (
                                 <form onSubmit={submit} className="border border-border-light p-6 space-y-4" style={{ borderRadius: 'var(--radius-lg)', background: 'var(--color-surface)' }}>

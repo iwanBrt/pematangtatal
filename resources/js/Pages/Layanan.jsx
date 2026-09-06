@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 import PublicLayout from '@/Layouts/PublicLayout';
 import PageHeader from '@/Components/PageHeader';
@@ -8,12 +8,13 @@ import { Search, Clock, FileText, CheckCircle, AlertCircle } from 'lucide-react'
 const statusColor = { menunggu: '#D9B56D', diproses: '#2F6B57', selesai: '#164A41', ditolak: '#B91C1C' };
 const statusLabel = { menunggu: 'Menunggu', diproses: 'Sedang Diproses', selesai: 'Selesai', ditolak: 'Ditolak' };
 
-export default function Layanan({ layanans, permohonan, no_referensi }) {
+export default function Layanan({ layanans, permohonan, no_referensi, flash }) {
     const [activeTab, setActiveTab] = useState('layanan');
     const [selectedLayanan, setSelectedLayanan] = useState(null);
+    const [showSuccess, setShowSuccess] = useState(false);
     const [cekRef, setCekRef] = useState(no_referensi || '');
 
-    const { data, setData, post, processing, errors, reset, recentlySuccessful } = useForm({
+    const { data, setData, post, processing, errors, reset } = useForm({
         layanan_id: '', nama_pemohon: '', nik: '', no_telepon: '', email: '', keperluan: '', berkas: null,
     });
 
@@ -21,7 +22,7 @@ export default function Layanan({ layanans, permohonan, no_referensi }) {
         e.preventDefault();
         post('/layanan/permohonan', {
             forceFormData: true,
-            onSuccess: () => { reset(); setSelectedLayanan(null); },
+            onSuccess: () => { reset(); setSelectedLayanan(null); setShowSuccess(true); },
         });
     };
 
@@ -49,6 +50,7 @@ export default function Layanan({ layanans, permohonan, no_referensi }) {
                         ].map(([tab, label]) => (
                             <button
                                 key={tab}
+                                type="button"
                                 onClick={() => setActiveTab(tab)}
                                 className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${
                                     activeTab === tab
@@ -92,6 +94,7 @@ export default function Layanan({ layanans, permohonan, no_referensi }) {
                                         </ul>
                                     </div>
                                     <button
+                                        type="button"
                                         onClick={() => { setSelectedLayanan(l); setData('layanan_id', l.id); setActiveTab('ajukan'); }}
                                         className="btn btn-primary w-full justify-center text-sm py-2"
                                     >
@@ -106,7 +109,7 @@ export default function Layanan({ layanans, permohonan, no_referensi }) {
                     {/* Tab: Ajukan */}
                     {activeTab === 'ajukan' && (
                         <ScrollReveal>
-                            {recentlySuccessful ? (
+                            {showSuccess ? (
                                 <div className="border border-border-light p-10 text-center" style={{ borderRadius: 'var(--radius-lg)', background: 'var(--color-surface)' }}>
                                     <CheckCircle size={48} className="text-primary mx-auto mb-4" />
                                     <h2 className="text-lg font-bold mb-2 text-charcoal" style={{ fontFamily: 'var(--font-heading)' }}>
@@ -115,7 +118,17 @@ export default function Layanan({ layanans, permohonan, no_referensi }) {
                                     <p className="text-sm mb-6 text-text-secondary">
                                         Simpan nomor referensi Anda untuk memantau status permohonan.
                                     </p>
-                                    <button onClick={() => reset()} className="btn btn-primary">Ajukan Lagi</button>
+                                    <div className="text-2xl font-bold mb-6 text-primary">
+                                        {flash?.no_referensi || no_referensi || 'Nomor belum tersedia'}
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => navigator.clipboard?.writeText(flash?.no_referensi || no_referensi || '')}
+                                        className="btn btn-secondary mb-6"
+                                    >
+                                        Salin Nomor Referensi
+                                    </button>
+                                    <button type="button" onClick={() => { setShowSuccess(false); setActiveTab('ajukan'); }} className="btn btn-primary">Tutup dan Kembali ke Form</button>
                                 </div>
                             ) : (
                                 <form onSubmit={submit} className="border border-border-light p-6 space-y-4" style={{ borderRadius: 'var(--radius-lg)', background: 'var(--color-surface)' }}>

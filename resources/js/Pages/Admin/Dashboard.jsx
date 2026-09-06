@@ -17,6 +17,10 @@ export default function Dashboard({ stats, pengaduan_terbaru = [], permohonan_te
         { label: 'Permohonan Pending', value: stats.permohonan_pending || 0, desc: 'Perlu verifikasi', icon: FileText, color: 'var(--color-primary-dark)' },
         { label: 'UMKM Aktif', value: stats.umkm_total || 0, desc: 'Pelaku usaha terdaftar', icon: ShoppingBag, color: 'var(--color-text-secondary)' },
     ];
+    const completion = [
+        { label: 'Permohonan terselesaikan', value: stats.permohonan_selesai || 0, total: (stats.permohonan_selesai || 0) + (stats.permohonan_pending || 0) },
+        { label: 'Pengaduan terselesaikan', value: stats.pengaduan_selesai || 0, total: (stats.pengaduan_selesai || 0) + (stats.pengaduan_baru || 0) + (stats.pengaduan_diproses || 0) },
+    ];
 
     return (
         <AdminLayout title="Dashboard Utama">
@@ -39,6 +43,13 @@ export default function Dashboard({ stats, pengaduan_terbaru = [], permohonan_te
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
+                {completion.map((item) => {
+                    const percent = item.total ? Math.round((item.value / item.total) * 100) : 0;
+                    return <div key={item.label} className="card p-5"><div className="flex justify-between text-sm font-semibold"><span>{item.label}</span><span className="text-primary">{percent}%</span></div><div className="mt-3 h-2 overflow-hidden rounded-full bg-secondary-bg"><div className="h-full rounded-full bg-primary transition-all" style={{ width: `${percent}%` }} /></div><p className="mt-2 text-xs text-text-muted">{item.value} dari {item.total} laporan</p></div>;
+                })}
             </div>
 
             {/* Grid Tables */}

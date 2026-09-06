@@ -10,10 +10,15 @@ export default function PageTransition({ children }) {
     useEffect(() => {
         if (previousUrl.current === null) {
             previousUrl.current = url;
+            setDisplayChildren(children);
             return;
         }
 
         if (previousUrl.current === url) {
+            // Keep local UI state (such as tabs and forms) in sync with the
+            // latest render. The cached children are only needed during a
+            // page-to-page transition.
+            setDisplayChildren(children);
             return;
         }
 

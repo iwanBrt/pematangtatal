@@ -18,7 +18,27 @@ export default function PermohonanShow({ permohonan }) {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route('admin.permohonan.update', permohonan.id), { preserveScroll: true });
+        patch(route('admin.permohonan.update', permohonan.id), {
+            preserveScroll: true,
+            onSuccess: () => {
+                if (data.status !== 'selesai' || permohonan.status === 'selesai') {
+                    return;
+                }
+
+                const phone = (permohonan.no_telepon || '')
+                    .replace(/\D/g, '')
+                    .replace(/^0/, '62');
+
+                if (!phone) {
+                    return;
+                }
+
+                const message = 'Surat selesai silahkan jemput di kantor';
+                window.location.assign(
+                    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`
+                );
+            },
+        });
     };
 
     return (

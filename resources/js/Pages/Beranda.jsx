@@ -8,13 +8,14 @@ import {
     ChevronRight, Phone, MessageSquare, Calendar
 } from 'lucide-react';
 
-export default function Beranda({ profil, beritas = [], pengumuman = [], umkms = [], galeris = [], agenda = [], stats = {} }) {
+export default function Beranda({ profil, beritas = [], pengumuman = [], umkms = [], galeris = [], agenda = [], stats = {}, darurat = null }) {
     const featured = beritas[0];
     const secondary = beritas.slice(1, 5);
 
     return (
         <PublicLayout transparentNav>
             <Head title="Beranda" />
+            {darurat && <div className="bg-red-700 px-5 py-3 pt-20 text-center text-white"><p className="font-extrabold">⚠ {darurat.judul}</p><p className="mt-1 text-sm text-white/90">{darurat.isi} {darurat.tautan && <Link href={darurat.tautan} className="ml-2 font-bold underline">Selengkapnya</Link>}</p></div>}
 
             {/* ══════ HERO SECTION ══════ */}
             <section className="relative min-h-[70vh] lg:min-h-[75vh] flex items-center overflow-hidden bg-charcoal">
@@ -278,6 +279,9 @@ export default function Beranda({ profil, beritas = [], pengumuman = [], umkms =
                                     <p className="text-primary font-semibold text-sm mb-1 uppercase tracking-wider">Jadwal</p>
                                     <h2 className="section-title">Agenda Kegiatan</h2>
                                 </div>
+                                <Link href="/agenda" className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-primary hover:text-primary-dark">
+                                    Lihat semua <ChevronRight size={16} />
+                                </Link>
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                                 {agenda.map((a) => (
@@ -307,15 +311,15 @@ export default function Beranda({ profil, beritas = [], pengumuman = [], umkms =
             <ScrollReveal>
                 <section className="py-14 text-white" style={{ backgroundColor: '#164A41' }}>
                     <div className="container-custom text-center">
-                        <h2 className="text-2xl lg:text-3xl font-bold mb-3" style={{ fontFamily: 'var(--font-heading)' }}>Butuh Layanan Desa?</h2>
-                        <p className="text-white text-base mb-6 max-w-xl mx-auto">
+                        <h2 className="text-2xl lg:text-3xl font-bold mb-3 text-white" style={{ fontFamily: 'var(--font-heading)', color: '#FFFFFF' }}>Butuh Layanan Desa?</h2>
+                        <p className="text-white text-base mb-6 max-w-xl mx-auto" style={{ color: '#FFFFFF' }}>
                             Urus surat-menyurat secara online tanpa harus antre. Cepat, mudah, dan transparan.
                         </p>
                         <div className="flex flex-wrap justify-center gap-3">
-                            <Link href="/layanan" className="btn bg-white text-primary hover:bg-white/90 px-6 py-3">
+                            <Link href="/layanan" className="btn bg-white hover:bg-white/90 px-6 py-3" style={{ color: '#164A41' }}>
                                 Ajukan Permohonan <ArrowRight size={16} />
                             </Link>
-                            <Link href="/pengaduan" className="btn border border-white/40 text-white hover:bg-white/10 px-6 py-3">
+                            <Link href="/pengaduan" className="btn border border-white/40 hover:bg-white/10 px-6 py-3" style={{ color: '#FFFFFF' }}>
                                 Laporkan Masalah
                             </Link>
                         </div>

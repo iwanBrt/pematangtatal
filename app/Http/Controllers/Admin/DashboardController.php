@@ -21,6 +21,8 @@ class DashboardController extends Controller
             'pengaduan_diproses'  => Pengaduan::where('status', 'diproses')->count(),
             'permohonan_pending'  => PermohonanSurat::where('status', 'menunggu')->count(),
             'umkm_total'          => Umkm::aktif()->count(),
+            'permohonan_selesai'  => PermohonanSurat::where('status', 'selesai')->count(),
+            'pengaduan_selesai'   => Pengaduan::where('status', 'selesai')->count(),
         ];
 
         $pengaduan_terbaru = Pengaduan::latest()

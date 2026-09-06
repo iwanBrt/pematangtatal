@@ -20,6 +20,9 @@ export default function AdminLayout({ children, title }) {
         { label: 'Layanan Desa', icon: Layers, href: '/admin/layanan' },
         { label: 'Permohonan Surat', icon: FileText, href: '/admin/permohonan' },
         { label: 'Agenda Kegiatan', icon: CalendarDays, href: '/admin/agenda' },
+        { label: 'Dokumen Publik', icon: FileText, href: '/admin/dokumen' },
+        { label: 'Info Darurat', icon: AlertTriangle, href: '/admin/pengumuman-darurat' },
+        { label: 'Lembaga Desa', icon: UserCheck, href: '/admin/lembaga' },
         { label: 'Manajemen UMKM', icon: ShoppingBag, href: '/admin/umkm' },
         { label: 'Pengaduan Warga', icon: AlertTriangle, href: '/admin/pengaduan' },
         { label: 'Galeri Foto', icon: ImageIcon, href: '/admin/galeri' },
@@ -28,7 +31,7 @@ export default function AdminLayout({ children, title }) {
     return (
         <div className="min-h-screen flex" style={{ backgroundColor: 'var(--color-bg)' }}>
             {/* ── Sidebar Desktop ── */}
-            <aside className={`fixed inset-y-0 left-0 z-40 w-64 border-r transition-transform lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:static lg:flex lg:flex-col`}
+            <aside className={`fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r transition-transform lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:static`}
                 style={{ backgroundColor: 'var(--color-primary-dark)', borderColor: 'var(--color-primary)' }}>
                 <div className="h-16 flex items-center justify-between px-6 border-b" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
                     <span className="font-bold text-white text-base tracking-wide" style={{ fontFamily: 'var(--font-heading)' }}>

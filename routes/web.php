@@ -10,6 +10,10 @@ use App\Http\Controllers\UmkmController;
 use App\Http\Controllers\LayananController;
 use App\Http\Controllers\PengaduanController;
 use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\AgendaController;
+use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\LembagaController;
+use App\Http\Controllers\PencarianController;
 use App\Http\Controllers\Admin\BeritaController as AdminBeritaController;
 use App\Http\Controllers\Admin\ProfilController as AdminProfilController;
 use App\Http\Controllers\Admin\PerangkatController as AdminPerangkatController;
@@ -22,6 +26,9 @@ use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
 use App\Http\Controllers\Admin\AgendaKegiatanController as AdminAgendaKegiatanController;
 use App\Http\Controllers\Admin\KategoriController as AdminKategoriController;
 use App\Http\Controllers\Admin\LayananController as AdminLayananController;
+use App\Http\Controllers\Admin\DokumenController as AdminDokumenController;
+use App\Http\Controllers\Admin\PengumumanDaruratController;
+use App\Http\Controllers\Admin\LembagaController as AdminLembagaController;
 
 // ─────────────────────────────────────────────
 // PUBLIC ROUTES
@@ -31,7 +38,9 @@ Route::get('/', [BerandaController::class, 'index'])->name('beranda');
 
 // Alias dashboard (Breeze default redirect target) → beranda publik.
 // Pengguna terautentikasi yang bukan admin melihat beranda; admin dapat mengakses /admin.
-Route::get('/dashboard', [BerandaController::class, 'index'])->name('dashboard');
+Route::redirect('/dashboard', '/admin')
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::get('/profil', [ProfilDesaController::class, 'index'])->name('profil');
 
@@ -67,8 +76,13 @@ Route::prefix('pengaduan')->name('pengaduan.')->group(function () {
 });
 
 Route::get('/galeri', [GaleriController::class, 'index'])->name('galeri');
+Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda');
+Route::get('/dokumen', [DokumenController::class, 'index'])->name('dokumen');
+Route::get('/lembaga', [LembagaController::class, 'index'])->name('lembaga');
+Route::get('/cari', [PencarianController::class, 'index'])->name('cari');
 
 Route::get('/kontak', fn () => Inertia::render('Kontak'))->name('kontak');
+Route::get('/privasi', fn () => Inertia::render('Privasi'))->name('privasi');
 Route::get('/potensi', fn () => Inertia::render('Potensi'))->name('potensi');
 
 // ─────────────────────────────────────────────
@@ -131,4 +145,11 @@ Route::prefix('admin')
 
         // Layanan
         Route::resource('layanan', AdminLayananController::class)->except(['show']);
+        Route::resource('dokumen', AdminDokumenController::class)->except(['show']);
+        Route::get('pengumuman-darurat', [PengumumanDaruratController::class,'index'])->name('pengumuman-darurat.index');
+        Route::post('pengumuman-darurat', [PengumumanDaruratController::class,'store'])->name('pengumuman-darurat.store');
+        Route::get('lembaga', [AdminLembagaController::class,'index'])->name('lembaga.index');
+        Route::post('lembaga', [AdminLembagaController::class,'store'])->name('lembaga.store');
+        Route::put('lembaga/{lembaga}', [AdminLembagaController::class,'update'])->name('lembaga.update');
+        Route::delete('lembaga/{lembaga}', [AdminLembagaController::class,'destroy'])->name('lembaga.destroy');
     });

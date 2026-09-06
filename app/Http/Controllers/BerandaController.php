@@ -33,6 +33,7 @@ class BerandaController extends Controller
         $galeris    = Galeri::featured()->limit(6)->get(['id', 'judul', 'foto', 'kategori']);
 
         $agenda     = AgendaKegiatan::upcoming()->limit(3)->get();
+        $darurat    = \App\Models\PengumumanDarurat::tayang()->latest()->first();
 
         // Statistik ringkas untuk quick-stats
         $stats = [
@@ -43,7 +44,7 @@ class BerandaController extends Controller
         ];
 
         return Inertia::render('Beranda', compact(
-            'profil', 'beritas', 'pengumuman', 'umkms', 'galeris', 'agenda', 'stats'
+            'profil', 'beritas', 'pengumuman', 'umkms', 'galeris', 'agenda', 'stats', 'darurat'
         ));
     }
 }

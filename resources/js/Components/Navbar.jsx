@@ -4,10 +4,24 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 
 const navLinks = [
     { label: 'Beranda', href: '/' },
-    { label: 'Profil Desa', href: '/profil' },
+    {
+        label: 'Tentang Desa',
+        children: [
+            { label: 'Profil Desa', href: '/profil' },
+            { label: 'Data Desa', href: '/data-desa' },
+            { label: 'Lembaga Desa', href: '/lembaga' },
+            { label: 'Dokumen Publik', href: '/dokumen' },
+        ],
+    },
     { label: 'Berita', href: '/berita' },
-    { label: 'Data Desa', href: '/data-desa' },
-    { label: 'Layanan', href: '/layanan' },
+    {
+        label: 'Layanan',
+        children: [
+            { label: 'Ajukan Permohonan', href: '/layanan' },
+            { label: 'Pengaduan Warga', href: '/pengaduan' },
+            { label: 'Agenda Kegiatan', href: '/agenda' },
+        ],
+    },
     {
         label: 'Potensi',
         children: [
@@ -16,7 +30,6 @@ const navLinks = [
             { label: 'Galeri', href: '/galeri' },
         ],
     },
-    { label: 'Pengaduan', href: '/pengaduan' },
     { label: 'Kontak', href: '/kontak' },
 ];
 
@@ -81,7 +94,7 @@ export default function Navbar({ transparent = false }) {
                                         {link.label} <ChevronDown size={14} />
                                     </button>
                                     {dropdown === link.label && (
-                                        <div className="absolute top-full left-0 w-44 bg-white border border-border-light shadow-elevated py-1 z-50" style={{ borderRadius: 'var(--radius-md)' }}>
+                                        <div className="absolute top-full left-0 w-52 bg-white border border-border-light shadow-elevated py-1 z-50" style={{ borderRadius: 'var(--radius-md)' }}>
                                             {link.children.map((c) => (
                                                 <Link key={c.href} href={c.href}
                                                     className="block px-4 py-2 text-sm text-text-secondary hover:bg-secondary-bg hover:text-primary transition-colors">

@@ -1,0 +1,3 @@
+<?php
+namespace App\Http\Controllers\Admin; use App\Http\Controllers\Controller; use App\Models\PengumumanDarurat; use Illuminate\Http\Request; use Inertia\Inertia;
+class PengumumanDaruratController extends Controller { public function index(){return Inertia::render('Admin/PengumumanDarurat',['pengumuman'=>PengumumanDarurat::latest()->first()]);} public function store(Request $r){$d=$r->validate(['judul'=>'required|max:255','isi'=>'required','tautan'=>'nullable|max:255','berakhir_pada'=>'nullable|date','aktif'=>'boolean']);PengumumanDarurat::updateOrCreate(['id'=>$r->id],$d);return back()->with('success','Pengumuman disimpan.');} }
