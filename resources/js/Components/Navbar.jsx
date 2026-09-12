@@ -119,7 +119,7 @@ export default function Navbar({ transparent = false }) {
                     </div>
 
                     {/* CTA */}
-                    <Link href="/layanan" className="hidden lg:inline-flex btn btn-primary !bg-primary !text-white text-sm py-2 px-4 hover:!bg-primary-dark">
+                    <Link href="/layanan" className="!hidden md:!inline-flex btn btn-primary !bg-primary !text-white text-sm py-2 px-4 hover:!bg-primary-dark">
                         Layanan Desa
                     </Link>
 
@@ -134,7 +134,7 @@ export default function Navbar({ transparent = false }) {
 
             {/* Mobile Menu */}
             {mobileOpen && (
-                <div className="lg:hidden bg-white border-t border-border-light">
+                    <div className="lg:hidden max-h-[calc(100vh-4rem)] overflow-y-auto bg-white border-t border-border-light">
                     <div className="container-custom py-3 flex flex-col gap-0.5">
                         {navLinks.map((link) =>
                             link.children ? (

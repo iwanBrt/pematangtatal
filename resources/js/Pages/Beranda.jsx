@@ -1,4 +1,5 @@
 import { Head, Link } from '@inertiajs/react';
+import heroBackground from '../../../assets/images/bg.jpg';
 import PublicLayout from '@/Layouts/PublicLayout';
 import StatCounter from '@/Components/StatCounter';
 import Badge from '@/Components/Badge';
@@ -20,33 +21,38 @@ export default function Beranda({ profil, beritas = [], pengumuman = [], umkms =
             {/* ══════ HERO SECTION ══════ */}
             <section className="relative min-h-[70vh] lg:min-h-[75vh] flex items-center overflow-hidden bg-charcoal">
                 <div className="absolute inset-0">
-                    {profil?.foto_kantor ? (
-                        <img
-                            src={`/storage/${profil.foto_kantor}`}
-                            alt="Kantor Desa Pematang Tatal"
-                            className="h-full w-full object-cover"
-                        />
-                    ) : null}
+                    <img
+                        src={heroBackground}
+                        alt=""
+                        aria-hidden="true"
+                        className="h-full w-full object-cover"
+                    />
                     <div className="absolute inset-0 bg-gradient-to-r from-charcoal/90 via-charcoal/65 to-charcoal/35" />
                 </div>
                 <div className="container-custom relative z-10 py-20 lg:py-0">
                     <div className="max-w-2xl">
-                        <p className="text-primary-light font-semibold text-sm mb-4 uppercase tracking-wider">
-                            Portal Resmi Desa
-                        </p>
-                        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-5 leading-tight" style={{ fontFamily: 'var(--font-heading)' }}>
-                            Desa Pematang Tatal
+                        
+                        <h1 className="mt-6 text-4xl font-bold leading-[1.05] text-white sm:text-5xl lg:text-7xl" style={{ fontFamily: 'var(--font-heading)' }}>
+                            Dekat dengan
+                            <span className="block" style={{ color: 'var(--color-primary-light)' }}>warga Pematang Tatal.</span>
                         </h1>
-                        <p className="text-lg text-slate-300 mb-8 leading-relaxed max-w-xl">
-                            Portal informasi dan pelayanan masyarakat Desa Pematang Tatal. Transparan, modern, dan mudah diakses.
+                        <p className="mt-6 max-w-xl text-lg leading-relaxed text-slate-200 sm:text-xl">
+                            Satu ruang untuk mengenal desa, menemukan layanan, dan mengikuti kabar terbaru Pematang Tatal.
                         </p>
                         <div className="flex flex-wrap gap-3">
                             <Link href="/profil" className="btn btn-primary px-6 py-3">
                                 Profil Desa <ArrowRight size={16} />
                             </Link>
-                            <Link href="/layanan" className="btn btn-secondary px-6 py-3 !text-white !border-white hover:bg-white/10 hover:!text-white">
+                            <Link href="/layanan" className="hidden md:inline-flex btn btn-secondary px-6 py-3 !text-white !border-white hover:bg-white/10 hover:!text-white">
                                 Layanan Desa
                             </Link>
+                        </div>
+                        <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-white/75">
+                            <span>Informasi desa</span>
+                            <span className="h-1 w-1 rounded-full bg-primary-light" />
+                            <span>Layanan warga</span>
+                            <span className="h-1 w-1 rounded-full bg-primary-light" />
+                            <span>Kabar terkini</span>
                         </div>
                     </div>
                 </div>

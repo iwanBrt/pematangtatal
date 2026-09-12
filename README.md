@@ -1,3 +1,11 @@
+## Public Upload Storage
+
+Uploaded Berita thumbnails and Perangkat Desa photos are stored on Laravel's `public` disk and served through `/storage/...`. After installing or deploying the application, create the public storage link once:
+
+```bash
+php artisan storage:link
+```
+
 
 admin@pematangtatal.desa.id
 Admin@PematangTatal2026!

@@ -23,7 +23,7 @@ class PerangkatController extends Controller
         ]);
 
         if ($request->hasFile('foto')) {
-            $validated['foto'] = $request->file('foto')->store('perangkat', 'public');
+            $validated['foto'] = $request->file('foto')->store('perangkat_desa', 'public');
         }
 
         PerangkatDesa::create($validated);
@@ -47,7 +47,7 @@ class PerangkatController extends Controller
             if ($perangkat->foto) {
                 Storage::disk('public')->delete($perangkat->foto);
             }
-            $validated['foto'] = $request->file('foto')->store('perangkat', 'public');
+            $validated['foto'] = $request->file('foto')->store('perangkat_desa', 'public');
         }
 
         $perangkat->update($validated);

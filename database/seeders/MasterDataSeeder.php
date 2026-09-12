@@ -8,6 +8,7 @@ use App\Models\ProfilDesa;
 use App\Models\PerangkatDesa;
 use App\Models\Layanan;
 use App\Models\Umkm;
+use Illuminate\Support\Facades\Hash;
 
 class MasterDataSeeder extends Seeder
 {
@@ -20,12 +21,18 @@ class MasterDataSeeder extends Seeder
             ['email' => 'admin@pematangtatal.desa.id'],
             [
                 'name' => 'Admin Desa',
-                'password' => bcrypt($adminPassword),
+                'password' => Hash::make($adminPassword),
                 'role' => 'admin',
                 'email_verified_at' => now(),
                 'must_change_password' => true,
             ]
         );
+
+        if (! $admin->wasRecentlyCreated && password_get_info($admin->getRawOriginal('password'))['algoName'] !== 'bcrypt') {
+            $admin->password = Hash::make($adminPassword);
+            $admin->save();
+            $admin->wasRecentlyCreated = true;
+        }
 
         // Jika user sudah ada, jangan reset password-nya. Hanya tampilkan untuk user baru.
         if ($admin->wasRecentlyCreated) {
